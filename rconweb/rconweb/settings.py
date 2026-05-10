@@ -195,6 +195,17 @@ INSTALLED_APPS = [
     "corsheaders",
     "api",
     "directory",
+    "internal_user_api",
+]
+
+ENABLE_INTERNAL_USER_API = (
+    os.getenv("ENABLE_INTERNAL_USER_API", "").lower() == "true"
+)
+INTERNAL_USER_API_TOKEN = os.getenv("INTERNAL_USER_API_TOKEN", "")
+INTERNAL_USER_API_ALLOWED_IPS = [
+    ip.strip()
+    for ip in os.getenv("INTERNAL_USER_API_ALLOWED_IPS", "").split(",")
+    if ip.strip()
 ]
 
 DIRECTORY_DIRECTORY = os.getenv("LOGGING_PATH", "./logs")
