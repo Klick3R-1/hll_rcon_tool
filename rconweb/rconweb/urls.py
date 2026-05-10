@@ -26,7 +26,7 @@ if not os.getenv("HLL_MAINTENANCE_CONTAINER") and not os.getenv(
         path("admin/", admin.site.urls),
         path("accounts/", include("django.contrib.auth.urls")),
         path("api/", include("api.urls")),
-        path("api/internal/users/", include("internal_user_api.urls")),
+        path("api/internal/", include("internal_user_api.urls")),
         path("api/logs/", include("directory.urls")),
     ]
 else:

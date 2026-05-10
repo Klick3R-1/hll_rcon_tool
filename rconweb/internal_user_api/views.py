@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError, transaction
@@ -56,6 +57,15 @@ def _validation_error_response(error):
     if hasattr(error, "message_dict"):
         return json_error("validation_error", details=error.message_dict)
     return json_error("validation_error", details=error.messages)
+
+
+@csrf_exempt
+@require_internal_token
+@require_json_methods(["GET"])
+def groups(request):
+    group_qs = Group.objects.order_by("name").values("id", "name")
+    audit_action("list_groups", "*", request)
+    return json_success(list(group_qs))
 
 
 @csrf_exempt

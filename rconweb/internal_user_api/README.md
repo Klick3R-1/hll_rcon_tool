@@ -30,6 +30,7 @@ INTERNAL_USER_API_ALLOWED_IPS=192.168.1.10,192.168.1.20
 All requests and responses are JSON.
 
 ```text
+GET    /api/internal/groups/
 GET    /api/internal/users/
 POST   /api/internal/users/
 PATCH  /api/internal/users/<id>/
@@ -41,6 +42,9 @@ POST   /api/internal/users/<id>/groups/
 ## Examples
 
 ```bash
+curl -sS http://crcon.local/api/internal/groups/ \
+  -H "X-Internal-Token: $INTERNAL_USER_API_TOKEN"
+
 curl -sS http://crcon.local/api/internal/users/ \
   -H "X-Internal-Token: $INTERNAL_USER_API_TOKEN"
 
