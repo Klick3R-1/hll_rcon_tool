@@ -194,7 +194,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "api",
-    "directory",
     "internal_user_api",
 ]
 
