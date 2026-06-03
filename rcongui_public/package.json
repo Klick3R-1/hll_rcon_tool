@@ -48,7 +48,7 @@
     "@tanstack/react-query": "^5.62.3",
     "@tanstack/react-table": "^8.20.5",
     "@transmart/cli": "^0.5.1",
-    "axios": "^1.13.5",
+    "axios": "^1.15.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
@@ -106,8 +106,8 @@
     "husky": "^9.1.7",
     "i18next-resources-for-ts": "1.5.0",
     "less": "^4.2.1",
-    "lint-staged": "^15.2.10",
-    "postcss": "^8.4.49",
+    "lint-staged": "^15.5.2",
+    "postcss": "^8.5.13",
     "postcss-less": "^6.0.0",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
@@ -118,7 +118,7 @@
     "tailwindcss": "3.4.16",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
-    "vite": "^6.4.1",
+    "vite": "^6.4.2",
     "vite-plugin-external": "^4.3.1",
     "vite-plugin-svgr": "^4.3.0"
   }

@@ -721,6 +721,11 @@ class GameStateType(TypedDict):
     axis_score: int
     allied_faction: int
     axis_faction: int
+    allied_faction_id: int
+    axis_faction_id: int
+    allied_morale: int
+    axis_morale: int
+    initial_morale: int
     raw_time_remaining: str
     time_remaining: datetime.timedelta
     current_map: "LayerType"
@@ -843,6 +848,12 @@ class PublicInfoNameType(TypedDict):
     public_stats_port: int | None
     public_stats_port_https: int | None
 
+class ServerConfigType(TypedDict):
+    build_number: str
+    build_revision: str
+    password_protected: bool
+    server_name: str
+    supported_platforms: list[str]
 
 class PublicInfoType(TypedDict):
     """TypedDict for rcon.views.get_public_info"""
@@ -856,6 +867,7 @@ class PublicInfoType(TypedDict):
     time_remaining: float
     vote_status: list[VoteMapStatusType]
     name: PublicInfoNameType
+    config: ServerConfigType
 
 
 class SlotsType(TypedDict):
@@ -958,6 +970,7 @@ class PlayerInfoType(TypedDict):
     loadout: str
     name: str
     platoon: str
+    platoonIndex: int
     scoreData: ScoreDataType
     stats: StatsDataType
     platform: str

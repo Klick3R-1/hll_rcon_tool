@@ -208,10 +208,6 @@ INTERNAL_USER_API_ALLOWED_IPS = [
     if ip.strip()
 ]
 
-DIRECTORY_DIRECTORY = os.getenv("LOGGING_PATH", "./logs")
-DIRECTORY_ACCESS_FUNCTION = "api.auth.staff_required"
-DIRECTORY_ACCESS_MODE = "custom"
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -264,6 +260,9 @@ DATABASES = {
         "HOST": db_info["HOST"],
         "PORT": db_info["PORT"],
         "NAME": db_info["NAME"],
+        "OPTIONS": {
+            "application_name": (os.getenv("SERVER_NUMBER") or "") + "Django",
+        }
     }
 }
 

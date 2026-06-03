@@ -1,13 +1,14 @@
 import logging
 import os
 import re
+import sys
 from collections import defaultdict
 from contextlib import contextmanager
 from datetime import datetime, timezone
-from typing import Any, Generator, List, Literal, Optional, Sequence, overload, TypedDict
+from typing import Any, Generator, List, Literal, Optional, Sequence, overload
 
 import pydantic
-from sqlalchemy import TIMESTAMP, Enum, ForeignKey, String, create_engine, select, text, JSON
+from sqlalchemy import TIMESTAMP, Enum, ForeignKey, String, create_engine, select, text, JSON, Engine, NullPool, Pool
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.exc import InvalidRequestError, ProgrammingError
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -70,7 +71,31 @@ logger = logging.getLogger(__name__)
 
 PLAYER_ID = "player_id"
 
-_ENGINE = None
+_ENGINE: Engine | None = None
+
+
+def _connection_name() -> str:
+    """
+    Identify what application component is using the SQLAlchemy session. This can be helpful when inspecting the connections
+    in Postgres to identify the purpose of a connection. The connection name will be used as the application_name connection
+    property and show up in the pg_stat_activity table:
+    select * from pg_stat_activity;
+
+    :return: str
+    """
+    args = sys.argv
+    name = 'CRCon Generic'
+    if "manage.py" not in args[0]:
+        # stuff like daphne, gunicorn (backend) etc
+        name = args[0]
+    elif len(args) > 1 and args[1] != "":
+        # Take whatever argument we passed to manage.py (for Supervisor services, such as log_loop, etc)
+        name = args[1]
+
+    name = (os.getenv("SERVER_NUMBER") or "") + name
+    # in the standard build (which we use in teh default docker setup) the name cannot exceed 63 chars (less than 64),
+    # see https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-APPLICATION-NAME
+    return name[:63]
 
 
 def get_engine():
@@ -84,7 +109,11 @@ def get_engine():
         logger.error(msg)
         raise ValueError(msg)
 
-    _ENGINE = create_engine(url, echo=False)
+    pool: type[Pool] | None = None
+    if os.getenv("HLL_DB_DISABLE_CONNECTION_POOL") is not None:
+        pool = NullPool
+
+    _ENGINE = create_engine(url, poolclass=pool, echo=False, connect_args={"application_name":_connection_name()})
     return _ENGINE
 
 
