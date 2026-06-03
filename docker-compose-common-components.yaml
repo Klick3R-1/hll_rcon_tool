@@ -41,7 +41,7 @@ services:
   # This container is used for things that should only run once regardless of
   # the number of game servers used, for instance database migrations
   maintenance:
-    image: ${LOCAL_IMAGE}:${TAGGED_VERSION}
+    image: ${LOCAL_IMAGE}:${LOCAL_TAGGED_VERSION}
     environment:
       HLL_MAINTENANCE_CONTAINER: true
       HLL_DB_USER: ${HLL_DB_USER}
@@ -70,7 +70,7 @@ services:
       - common
   # This is used to handle webhooks to discord (and other services in the future)
   webhook_service:
-    image: ${LOCAL_IMAGE}:${TAGGED_VERSION}
+    image: ${LOCAL_IMAGE}:${LOCAL_TAGGED_VERSION}
     environment:
       HLL_WH_SERVICE_CONTAINER: true
       LOGGING_LEVEL: "INFO"
